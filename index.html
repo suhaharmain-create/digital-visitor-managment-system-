@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Visitor Management System</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#142b49">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f4f9;
+    color: #202c3c;
+}
+
+header {
+    background: #142b49;
+    color: white;
+    padding: 22px;
+}
+
+header h1 {
+    font-size: 23px;
+    margin-bottom: 6px;
+}
+
+header p {
+    color: #cbd8e8;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 22px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0000000c;
+}
+
+.stat h2 {
+    font-size: 28px;
+    margin-top: 10px;
+    color: #1769aa;
+}
+
+.panel {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 8px #0000000c;
+}
+
+.panel h2 {
+    margin-bottom: 18px;
+    color: #142b49;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+    font-size: 14px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd4df;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 7px;
+    background: #1769aa;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.register-btn {
+    margin-top: 18px;
+    width: 100%;
+}
+
+.secondary {
+    background: #52647b;
+}
+
+.exit-btn {
+    background: #c64b4b;
+    padding: 8px 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5eaf0;
+    font-size: 13px;
+}
+
+th {
+    background: #edf3f9;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.status {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.inside {
+    background: #d8f5e4;
+    color: #168044;
+}
+
+.exited {
+    background: #fce1e1;
+    color: #b12d2d;
+}
+
+.tools {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.tools input {
+    flex: 1;
+    min-width: 180px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #718096;
+    font-size: 13px;
+}
+
+@media(max-width:650px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1 id="collegeHeading">Smart Visitor Management System</h1>
+    <p>Digital College Entry and Security Dashboard</p>
+</header>
+
+<div class="container">
+
+    <!-- DASHBOARD -->
+
+    <div class="stats">
+
+        <div class="stat">
+            <p>Total Visitors</p>
+            <h2 id="totalCount">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>Currently Inside</p>
+            <h2 id="insideCount">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>Visitors Checked Out</p>
+            <h2 id="exitedCount">0</h2>
+        </div>
+
+    </div>
+
+    <!-- REGISTRATION -->
+
+    <div class="panel">
+
+        <h2>Visitor Registration</h2>
+
+        <form id="visitorForm">
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Visitor Name</label>
+                    <input id="visitorName" type="text"
+                    placeholder="Enter full name" required>
+                </div>
+
+                <div>
+                    <label>Phone Number</label>
+                    <input id="phone" type="tel"
+                    placeholder="Enter phone number">
+                </div>
+
+                <div>
+                    <label>Purpose of Visit</label>
+                    <select id="purpose" required>
+                        <option value="">Select purpose</option>
+                        <option>Meeting</option>
+                        <option>Admission Enquiry</option>
+                        <option>Official Work</option>
+                        <option>Parent Visit</option>
+                        <option>Delivery</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Department to Visit</label>
+                    <select id="department" required>
+                        <option value="">Select department</option>
+                        <option>Computer Science</option>
+                        <option>Electronics</option>
+                        <option>Mechanical</option>
+                        <option>Civil</option>
+                        <option>Electrical</option>
+                        <option>Administration</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Person to Meet</label>
+                    <input id="person" type="text"
+                    placeholder="Enter person's name" required>
+                </div>
+
+                <div>
+                    <label>Arrival Date and Time</label>
+                    <input id="visitTime" type="datetime-local" required>
+                </div>
+
+            </div>
+
+            <button class="register-btn" type="submit">
+                + Register Visitor
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- VISITOR RECORDS -->
+
+    <div class="panel">
+
+        <h2>Visitor Management</h2>
+
+        <div class="tools">
+
+            <input type="text" id="search"
+            placeholder="Search by visitor name or phone">
+
+            <select id="filter">
+                <option value="all">All Visitors</option>
+                <option value="inside">Currently Inside</option>
+                <option value="exited">Checked Out</option>
+            </select>
+
+            <button class="secondary" onclick="exportCSV()">
+                Export Records
+            </button>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Purpose</th>
+                        <th>Department</th>
+                        <th>Person to Meet</th>
+                        <th>Arrival</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="visitorTable"></tbody>
+
+            </table>
+
+        </div>
+
+        <p id="emptyMessage" style="padding:18px;color:#718096">
+            No visitors registered yet.
+        </p>
+
+    </div>
+
+    <!-- COLLEGE SETTINGS -->
+
+    <div class="panel">
+
+        <h2>College Customization</h2>
+
+        <label>College Name</label>
+
+        <input type="text" id="collegeName"
+        placeholder="Enter your college name">
+
+        <br><br>
+
+        <button onclick="saveCollege()">
+            Save College Name
+        </button>
+
+        <button class="secondary" onclick="resetCollege()">
+            Reset Name
+        </button>
+
+    </div>
+
+    <footer>
+        Smart Visitor Management System |
+        Digital Campus Security
+    </footer>
+
+</div>
+
+<script>
+
+// LOAD SAVED DATA
+
+let visitors = JSON.parse(
+    localStorage.getItem("visitors") || "[]"
+);
+
+let savedCollege = localStorage.getItem("collegeName")
+    || "Smart Visitor Management System";
+
+document.getElementById("collegeHeading").textContent =
+    savedCollege;
+
+document.getElementById("collegeName").value =
+    savedCollege;
+
+
+// SET CURRENT DATE AND TIME
+
+function setCurrentTime() {
+
+    let now = new Date();
+
+    now.setMinutes(
+        now.getMinutes() - now.getTimezoneOffset()
+    );
+
+    document.getElementById("visitTime").value =
+        now.toISOString().slice(0, 16);
+}
+
+setCurrentTime();
+
+
+// REGISTER VISITOR
+
+document.getElementById("visitorForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let visitor = {
+
+        id: Date.now(),
+
+        name: document.getElementById("visitorName").value,
+
+        phone: document.getElementById("phone").value,
+
+        purpose: document.getElementById("purpose").value,
+
+        department: document.getElementById("department").value,
+
+        person: document.getElementById("person").value,
+
+        arrival: document.getElementById("visitTime").value,
+
+        checkout: "",
+
+        status: "inside"
+
+    };
+
+    visitors.push(visitor);
+
+    saveData();
+
+    this.reset();
+
+    setCurrentTime();
+
+    renderVisitors();
+
+    alert("Visitor registered successfully!");
+
+});
+
+
+// SAVE VISITOR RECORDS
+
+function saveData() {
+
+    localStorage.setItem(
+        "visitors",
+        JSON.stringify(visitors)
+    );
+
+}
+
+
+// SAFE TEXT DISPLAY
+
+function escapeHTML(value) {
+
+    return String(value ?? "").replace(
+        /[&<>"']/g,
+        function(character) {
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            }[character];
+        }
+    );
+
+}
+
+
+// DISPLAY VISITORS
+
+function renderVisitors() {
+
+    let table = document.getElementById("visitorTable");
+
+    let search = document.getElementById("search")
+        .value.toLowerCase();
+
+    let filter = document.getElementById("filter").value;
+
+    let inside = visitors.filter(
+        v => v.status === "inside"
+    ).length;
+
+    let exited = visitors.filter(
+        v => v.status === "exited"
+    ).length;
+
+    document.getElementById("totalCount").textContent =
+        visitors.length;
+
+    document.getElementById("insideCount").textContent =
+        inside;
+
+    document.getElementById("exitedCount").textContent =
+        exited;
+
+    let filtered = visitors.filter(v => {
+
+        let matchesSearch =
+            v.name.toLowerCase().includes(search) ||
+            v.phone.toLowerCase().includes(search);
+
+        let matchesFilter =
+            filter === "all" || v.status === filter;
+
+        return matchesSearch && matchesFilter;
+
+    });
+
+    table.innerHTML = "";
+
+    document.getElementById("emptyMessage").style.display =
+        filtered.length ? "none" : "block";
+
+    filtered.forEach(v => {
+
+        let row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${escapeHTML(v.name)}</td>
+
+            <td>${escapeHTML(v.phone)}</td>
+
+            <td>${escapeHTML(v.purpose)}</td>
+
+            <td>${escapeHTML(v.department)}</td>
+
+            <td>${escapeHTML(v.person)}</td>
+
+            <td>${escapeHTML(
+                new Date(v.arrival).toLocaleString()
+            )}</td>
+
+            <td>
+                <span class="status ${v.status}">
+                    ${v.status === "inside"
+                        ? "Inside"
+                        : "Checked Out"}
+                </span>
+            </td>
+
+            <td>
+                ${v.status === "inside"
+                    ? `<button class="exit-btn"
+                        onclick="checkOut(${v.id})">
+                        Check Out
+                       </button>`
+                    : escapeHTML(
+                        v.checkout
+                        ? new Date(v.checkout).toLocaleString()
+                        : "Completed"
+                    )}
+            </td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+// CHECK OUT VISITOR
+
+function checkOut(id) {
+
+    let visitor = visitors.find(v => v.id === id);
+
+    if (!visitor) return;
+
+    if (confirm("Confirm visitor checkout?")) {
+
+        visitor.status = "exited";
+
+        visitor.checkout = new Date().toISOString();
+
+        saveData();
+
+        renderVisitors();
+
+    }
+
+}
+
+
+// SEARCH AND FILTER
+
+document.getElementById("search")
+.addEventListener("input", renderVisitors);
+
+document.getElementById("filter")
+.addEventListener("change", renderVisitors);
+
+
+// CHANGE COLLEGE NAME
+
+function saveCollege() {
+
+    let name = document.getElementById("collegeName")
+        .value.trim();
+
+    if (!name) {
+        alert("Please enter a college name.");
+        return;
+    }
+
+    localStorage.setItem("collegeName", name);
+
+    document.getElementById("collegeHeading")
+        .textContent = name;
+
+    alert("College name updated!");
+
+}
+
+
+// RESET COLLEGE NAME
+
+function resetCollege() {
+
+    document.getElementById("collegeName").value =
+        "Smart Visitor Management System";
+
+    saveCollege();
+
+}
+
+
+// EXPORT VISITOR RECORDS
+
+function exportCSV() {
+
+    let headers = [
+        "Name", "Phone", "Purpose",
+        "Department", "Person", "Arrival",
+        "Checkout", "Status"
+    ];
+
+    let rows = visitors.map(v => [
+        v.name, v.phone, v.purpose,
+        v.department, v.person, v.arrival,
+        v.checkout, v.status
+    ]);
+
+    function csvCell(value) {
+        return '"' + String(value ?? "")
+            .replace(/"/g, '""') + '"';
+    }
+
+    let csv = [headers, ...rows]
+        .map(row => row.map(csvCell).join(","))
+        .join("\r\n");
+
+    let file = new Blob(
+        ["\uFEFF" + csv],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(file);
+
+    link.download = "visitor_records.csv";
+
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+
+}
+
+
+// INITIAL DISPLAY
+
+renderVisitors();
+
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => console.error("Service worker registration failed:", error));
+  });
+}
+</script>
+
+</body>
+</html>
